@@ -1,0 +1,89 @@
+<div id="cart">
+  <form action="/cart" method="post" id="cartform">
+    {% if cart.item_count == 0 %}
+    <div class="row">
+      <div class="span12 expanded-message">
+        <h2>Your cart is empty</h2>
+      </div> <!-- /.span12 -->
+    </div> <!-- /.row -->
+    
+    {% unless settings.featured_products == blank or collections[settings.featured_products].empty? or collections[settings.featured_products].products_count == 0 %}
+    {% assign collection = collections[settings.featured_products] %}
+    <div class="row products masonry featured-collections">
+    {% for product in collection.products limit: 3 %}
+      {% include 'product-loop' with settings.featured_products %}
+    {% endfor %}
+    </div>
+    {% endunless %}
+
+    {% else %}
+    <div class="row">
+      <div class="span12">
+        <h1>Your cart</h1>
+        <table>
+          <thead>
+            <tr>
+              <th class="image">&nbsp;</th>
+              <th class="item">Item</th>
+              <th class="qty">Quantity</th>
+              <th class="price">Price</th>
+              <th class="remove">Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart.items %}
+            <tr>
+              <td class="image">
+                <div class="product_image">
+                  <a href="{{ item.product.url }}">
+                    <img src="{{ item.product.featured_image | product_img_url: 'compact' }}"  alt="{{ item.product.title }}" />
+                  </a>
+                </div>
+              </td>
+              <td class="item"><a href="{{item.product.url }}"><strong>{{ item.title }}</strong></a>
+                <div class="item-description">
+                  {{ item.product.description | strip_html | truncatewords: 20 }}
+                </div>
+              </td>
+              <td class="qty">
+                <input type="text" size="4" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" onfocus="this.select();" class="tc item-quantity" />
+              </td>
+              <td class="price">{{ item.line_price | money }}</td>
+              <td class="remove"><a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart">Remove</a></td>
+            </tr>
+            {% endfor %}
+            <tr class="summary">
+              <td class="image">&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td class="price"><span class="total"><strong>{{ cart.total_price | money }}</strong></span></td>
+              <td>&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="buttons clearfix">
+          <input type="submit" id="checkout" class="btn" name="checkout" value="Checkout" />
+          <input type="submit" id="update-cart" class="btn" name="update" value="Update" />
+        </div>
+
+      </div> <!-- /.span12 -->
+    </div> <!-- /.row -->
+    <div class="row">
+      <div class="extra-checkout-buttons span6">
+        {% if additional_checkout_buttons %}
+        {{ content_for_additional_checkout_buttons }}
+        {% endif %}
+      </div>
+      {% if settings.display_cart_note %}
+      <div class="span6">
+        <div class="checkout-buttons clearfix">
+          <label for="note">Add special instructions for your order...</label>
+          <textarea id="note" name="note" rows="10" cols="50">{{ cart.note }}</textarea>
+        </div>
+      </div>
+      {% endif %}
+    </div> <!-- /.row -->
+    {% endif %}
+  </form>
+</div> <!-- /#cart -->

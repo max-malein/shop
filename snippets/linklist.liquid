@@ -1,0 +1,15 @@
+<div id="collection">
+  <div class="row">
+    <div class="span12">
+      <h1>{{ linklists[linklist].title }}</h1>
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+  <div class="row products masonry">
+    {% for link in linklists[linklist].links %}
+    {% if link.type == 'collection_link' %}  
+    {% assign collection = link.object %}
+    {% include 'collection-loop' %}
+    {% endif %}
+    {% endfor %}
+  </div> <!-- /.row -->
+</div> <!-- /#collection -->

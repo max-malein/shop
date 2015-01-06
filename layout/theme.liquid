@@ -1,0 +1,351 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name='yandex-verification' content='628acf28e55bfa6d' />
+  <meta name="p:domain_verify" content="27e4c4aa89b1ccadf168daa9be4b4b00"/>
+  <meta name='wmail-verification' content='eb785793ce50ae7a' />
+
+
+  <title>
+  {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}" />
+  {% endif %}
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  
+  <link rel="canonical" href="{{ canonical_url }}" /> 
+  
+  {% include 'fb-open-graph' %}
+  {% include 'twitter-cards' %}
+
+  {{ 'shop.css' | asset_url | stylesheet_tag }}
+  {% if settings.google_header_font != "none" %}
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family={{ settings.google_header_font }}:300,400,700">
+  {% endif %}
+  {% if settings.google_nav_font != "none" %}
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family={{ settings.google_nav_font }}:300,400,700">
+  {% endif %}
+  {{ 'html5shiv.js' | asset_url | script_tag }}
+  {% include 'capture' %}  
+
+  {{ content_for_header }}
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+
+  {% if template contains 'customers' %}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter25351481 = new Ya.Metrika({id:25351481,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/25351481" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ 
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50638522-1', 'pavluque.ru');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script> 
+
+</head>
+<!-- /.logo suck -->
+<body>
+  <div class="wrapper">
+    <header id="header" class="row">
+      <div class="span12 clearfix">
+        <div class="logo">
+          {% if settings.use_logo %}
+          <a href="/"><img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" /></a>
+          {% else %}
+          <h1><a href="/">{{ shop.name }}</a></h1>
+          {% endif %}
+        </div> <!-- /.logo -->
+        <div class="cart-summary">
+          <a href="/cart" class="clearfix">
+            <div class="icon">View cart</div>
+            <div class="details">
+              {% if template == "cart" %}
+              <span class="note">Checkout</span>
+              {% else %}
+              <span class="note">Your cart</span>
+              {% endif %}
+              <span class="item-count">{{ cart.item_count }} {{ cart.item_count | pluralize: 'Item', 'Items' }}</span>
+            </div> <!-- /.details -->
+          </a>
+        </div> <!-- /.cart-summary -->
+      </div> <!-- /.span12 -->
+    </header> <!-- /#header.row -->
+
+    
+<!--    <nav role="navigation"> 
+  <ul id="nav">
+    {% for link in linklists.main-menu.links %}
+    {% assign has_drop_down = false %}
+    {% assign child_list_handle = link.title | handle %}
+    {% comment %}If the link uses the arabic, hebrew or cyrillic alphabet, or is in Chinese or Japanese, the handle will be empty.{% endcomment %}
+    {% if child_list_handle == '' %}
+      {% for i in (0..8) %}
+        {% unless has_drop_down %}
+          {% if forloop.first %}
+            {% assign temp = 'link-list' %}
+          {% else %}
+            {% capture temp %}link-list-{{ i }}{% endcapture %}
+          {% endif %}
+          {% if linklists[temp] and linklists[temp].links.size > 0 and linklists[temp].title == link.title %}
+            {% assign has_drop_down = true %}
+            {% assign child_list_handle = temp %}
+          {% endif %}
+        {% endunless %}
+      {% endfor %}  
+    {% else %}
+      {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+        {% assign has_drop_down = true %}
+      {% endif %}
+    {% endif %}
+    <li class="nav-item{% if forloop.first %} first{% elsif forloop.last %} last{% endif %}{% if link.active %} active{% endif %}{% if has_drop_down %} dropdown{% endif %}">
+      <a class="nav-item-link smooth" href="{{ link.url }}">
+        {{ link.title }}
+      </a>
+      {% if has_drop_down %}
+      <ul class="sub-nav">
+        <li class="sub-nav-niblet"></li>
+        {% for l in linklists[child_list_handle].links %}
+        <li class="sub-nav-item{% if forloop.first %} first{% elsif forloop.last %} last{% endif %}">
+          <a class="sub-nav-item-link {% if forloop.first %}first{% endif %} {% if forloop.last %}last{% endif %}" href="{{ l.url }}">{{ l.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+  -->  
+    
+    <section id="nav" class="row">
+      <div class="span12">
+        <nav class="main">
+        {% include 'max_dropdown' %}
+        </nav> <!-- /.main -->
+        {% include 'mobile-menu' %}
+      </div> <!-- /.span12 -->
+    </section> <!-- /.row -->
+
+    <section id="body">     
+      {{ content_for_layout }}
+    </section> <!-- /#body -->
+
+    <footer id="footer">
+      {% if settings.footer_display_about_us or settings.footer_display_contact_us or settings.footer_display_newsletter %}
+      <div class="row footer-columns">
+        {% if settings.footer_display_about_us %}
+        <section class="span4 about-us">
+          <h3>About Us</h3>
+          {{ shop.description }}
+        </section> <!-- /.span4 -->
+        {% endif %}
+        {% if settings.footer_display_contact_us %}
+        <section class="span4 contact-us">
+          <h3>Contact Us</h3>
+          {{ settings.footer_contact_us }}
+        </section> <!-- /.span4 -->
+        {% endif %}
+        {% if settings.footer_display_newsletter %}
+        <section class="span4 newsletter">
+          <h3>Newsletter</h3>
+          <form action="{{ settings.mailing_list_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+            <input type="email" value="" name="EMAIL" id="mail" /><input type="submit" class="btn slim" value="Subscribe" name="subscribe" id="subscribe" />
+          </form>
+        </section> <!-- /.span4 -->
+        {% endif %}
+      </div> <!-- /.row.footer-columns -->
+      {% endif %}
+      {% if settings.display_footer_nav %}
+      <section id="footer-nav" class="row">
+        <div class="span12">
+          <nav class="main">
+            <ul class="horizontal unstyled clearfix">
+              {% for link in linklists[settings.footer_linklist].links %}
+              <li><a href="{{ link.url }}" class="{% if link.url == active_url %} current{% endif %}{% if template == 'article' and link.url == blog.url %} current{% endif %}"><span>{{ link.title }}</span></a></li>
+              {% endfor %}
+            </ul>
+          </nav> <!-- /.main -->
+          <nav class="mobile clearfix">
+            <select name="footer_navigation" id="footer_navigation" class="fl">
+              <option value="{{ active_url }}" selected="selected">{{ active_title }}</option>
+              {% for link in linklists[settings.footer_linklist].links %}
+              {% if active_url != link.url %}
+              <option value="{{ link.url }}">{{ link.title }}</option>
+              {% endif %}
+              {% endfor %}
+              <option value="/cart">Your cart ({{ cart.item_count }})</option>
+            </select>
+          </nav> <!-- /.mobile -->
+        </div> <!-- /.span12 -->
+      </section> <!-- /.row -->
+      {% endif %}
+      <div class="row payments-and-notices">
+        <section class="span4 footer-social">
+          <ul class="unstyled clearfix">
+          {% if settings.twitter_link != '' %}<li><a href="{{ settings.twitter_link }}" title="{{ shop.name }} on Twitter" class="icon-social twitter ir">Twitter</a></li>{% endif %}
+          {% if settings.facebook_link != '' %}<li><a href="{{ settings.facebook_link }}" title="{{ shop.name }} on Facebook" class="icon-social facebook ir">Facebook</a></li>{% endif %}
+          {% if settings.google_link != '' %}<li><a href="{{ settings.google_link }}" title="{{ shop.name }} on Google+" class="icon-social google ir">Google+</a></li>{% endif %}
+          {% if settings.youtube_link != '' %}<li><a href="{{ settings.youtube_link }}" title="{{ shop.name }} on YouTube" class="icon-social youtube ir">YouTube</a></li>{% endif %}
+          {% if settings.vimeo_link != '' %}<li><a href="{{ settings.vimeo_link }}" title="{{ shop.name }} on Vimeo" class="icon-social vimeo ir">Vimeo</a></li>{% endif %}
+          {% if settings.instagram_link != '' %}<li><a href="{{ settings.instagram_link }}" title="{{ shop.name }} on Instagram" class="icon-social instagram ir">Instagram</a></li>{% endif %}
+          {% if settings.pinterest_link != '' %}<li><a href="{{ settings.pinterest_link }}" title="{{ shop.name }} on Pinterest" class="icon-social pinterest ir">Pinterest</a></li>{% endif %}         
+          {% if settings.tumblr_link != '' %}<li><a href="{{ settings.tumblr_link }}" title="{{ shop.name }} on Tumblr" class="icon-social tumblr ir">Tumblr</a></li>{% endif %}          
+          {% if settings.atom_link != '' %}<li><a href="{{ shop.url }}/blogs/{{ settings.atom_link }}.atom" title="{{ shop.name }} news" class="icon-social atom ir">Blog feed</a></li>{% endif %}
+          </ul>
+        </section> <!-- /.span4 -->
+        <section class="span8 shop-notices">
+          Copyright &copy; {{ 'now' | date: "%Y" }} {{ shop.name }}
+          {% if settings.display_shop_currency %}| All prices in {{ shop.currency }}{% endif %}
+          | {{ powered_by_link }}
+        </section> <!-- /.span8 -->
+      </div> <!-- /.row.payments-and-notices -->
+    </footer> <!-- /#footer -->
+  </div> <!-- /.wrapper -->
+
+  <div class="wrapper payment-methods">
+    <div class="row">
+      {% if settings.display_footer_search %}
+      <section class="fr span6 searchform">
+        <form id="search_form" name="search" action="/search" class="clearfix">
+          <input type="submit" value="Go" class="submit" />
+          <input type="text" class="text" name="q"  />
+        </form>
+      </section> <!-- /.span6 -->
+      {% endif %}
+      <div class="span6">
+        <ul class="credit-cards clearfix">
+          {% if settings.accept_visa %}<li><img src="{{ 'icn_cc-visa.gif' | asset_url }}" alt="Visa" /></li>{% endif %}
+          {% if settings.accept_mastercard %}<li><img src="{{ 'icn_cc-mastercard.gif' | asset_url }}" alt="MasterCard" /></li>{% endif %}
+          {% if settings.accept_amex %}<li><img src="{{ 'icn_cc-amex.gif' | asset_url }}" alt="Amex" /></li>{% endif %}
+          {% if settings.accept_cirrus %}<li><img src="{{ 'icn_cc-cirrus.gif' | asset_url }}" alt="Cirrus" /></li>{% endif %}
+          {% if settings.accept_delta %}<li><img src="{{ 'icn_cc-delta.gif' | asset_url }}" alt="Delta" /></li>{% endif %}
+          {% if settings.accept_discover %}<li><img src="{{ 'icn_cc-discover.gif' | asset_url }}" alt="Discover" /></li>{% endif %}
+          {% if settings.accept_westernunion %}<li><img src="{{ 'icn_cc-westernunion.gif' | asset_url }}" alt="Western Union" /></li>{% endif %}
+          {% if settings.accept_google %}<li><img src="{{ 'icn_cc-google.gif' | asset_url }}" alt="Google Wallet" /></li>{% endif %}
+          {% if settings.accept_paypal %}<li><img src="{{ 'icn_cc-paypal.gif' | asset_url }}" alt="PayPal" /></li>{% endif %}
+          {% if settings.accept_bitcoin %}<li><img src="{{ 'icn_cc-bitcoin.gif' | asset_url }}" alt="Bitcoin" /></li>{% endif %}
+        </ul> <!-- /.credit-cards -->
+      </div> <!-- /.span6 -->
+    </div> <!-- /.row -->
+  </div> <!-- /.wrapper -->
+
+  {% if settings.display_slideshow %}{{ 'jquery.slider.js' | asset_url | script_tag }}{% endif %}
+  {% if settings.include_masonry %}{{ 'jquery.masonry.js' | asset_url | script_tag }}{% endif %}
+  {% if settings.enable_product_image_zoom %}{{ 'jquery.zoom.js' | asset_url | script_tag }}{% endif %}
+  {{ 'fancy.js' | asset_url | script_tag }}
+  {{ 'shop.js' | asset_url | script_tag }}
+
+  {% if template contains "product" %}
+  <script type="text/javascript">
+  
+  var selectCallback = function(variant, selector) {
+    if (variant) {
+      if (variant.available) {
+        $('#add-item-to-cart').show();
+        jQuery('#add-item-to-cart').removeAttr('disabled').removeClass('disabled').val('Добавить в корзину');
+        //$('.purchase-section multiple').html('<div class="purchase"><input type="submit" class="btn" name="add" id="add-item-to-cart" value="Add to cart" /></div> <!-- /.purchase -->');
+      }
+      else {
+        $('#add-item-to-cart').hide();
+         //jQuery('#add-item-to-cart').val('Нет в наличии ::(').addClass('disabled').attr('disabled', 'disabled');
+          //$('#ISR_button').remove();
+          //$( ".purchase" ).prepend( "<p id='abcent'>Нет в наличии :(</p>" );
+          //$('.purchase').attr('id','ISR_button');
+          //$('#ISR_button').remove;
+          //$('.purchase').html('<div id="ISR_button">olala</>');
+
+      }
+      
+      if(variant.price < variant.compare_at_price){
+        jQuery('#price-preview').html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}") + " <del>" + Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}") + "</del>");
+      } else {
+
+        jQuery('#price-preview').html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+      }
+      
+    } else {
+      jQuery('#add-item-to-cart').val('Unavailable').addClass('disabled').attr('disabled', 'disabled');
+    }
+  };
+  
+  {% if product.available %}
+
+  jQuery(document).ready(function($){
+      
+    new Shopify.OptionSelectors("product-select", { product: {{ product | json }}, onVariantSelected: selectCallback });
+
+    // Add label if only one product option and it isn't 'Title'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');
+    {% endif %}
+  
+    // Auto-select first available variant on page load.
+    {% assign found_one_in_stock = false %}
+    {% for variant in product.variants %}
+      {% if variant.available and found_one_in_stock == false %}
+        {% assign found_one_in_stock = true %}
+        {% for option in product.options %}
+        $('.single-option-selector:eq({{ forloop.index0 }})').val({{ variant.options[forloop.index0] | json }}).trigger('change');
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+
+  });
+  
+  {% endif %}
+  
+  </script>
+  {% endif %}
+  
+  
+  
+{{ "4mkapps.insta.min.js" | asset_url | script_tag }}</body>
+</html>

@@ -1,0 +1,25 @@
+<div id="collection">
+  <div class="row">
+    <div class="span12">
+      <h1>Product Collections</h1>
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+  {% if settings.all_collections_linklist != '' and  settings.all_collections_linklist != 'main-menu' %}
+  <div class="row products masonry">
+    {% for link in linklists[settings.all_collections_linklist].links %}
+    {% if link.type == 'collection_link' %}  
+    {% assign collection = link.object %}
+    {% include 'collection-loop' %}
+    {% endif %}
+    {% endfor %}
+  </div> <!-- /.row -->
+  {% else %}
+  <div class="row products masonry">
+    {% for collection in collections %}
+    {% unless collection.all_products_count == 0 or collection.handle == 'all' or collection.handle == 'frontpage' %}
+    {% include 'collection-loop' %}
+    {% endunless %}
+    {% endfor %}
+  </div> <!-- /.row -->
+  {% endif %}  
+</div> <!-- /#collection -->

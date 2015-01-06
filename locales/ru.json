@@ -1,0 +1,109 @@
+{
+  "shopify": {
+    "checkout": {
+      "general": {
+        "page_title": "Оформление заказа",
+        "continue_button_label": "Продолжить",
+        "complete_purchase_button_label": "Оформить заказ",
+        "edit_link_label": "Редактировать",
+        "error_title": "Упс!",
+        "all_rights_reserved": "Все права защищены",
+        "print_policies_link_label": "Распечатать"
+      },
+      "contact": {
+        "address_title": "Адрес",
+        "country_placeholder": "Пожалуйста выберите",
+        "shipping_address_title": "Адрес доставки",
+        "contact_and_address_title": "Контакты и адрес",
+        "contact_and_shipping_address_title": "Контакты и адрес доставки",
+        "customer_information_title": "Информация о клиенте",
+        "new_address_label": "Новый адрес...",
+        "stored_addresses_label": "Сохраненные адреса",
+        "first_name_label": "Имя",
+        "first_name_placeholder": "Таня",
+        "last_name_label": "Фамилия",
+        "last_name_placeholder": "Павлюк",
+        "company_label": "Организация",
+        "company_placeholder": "необязательно",
+        "address1_label": "Адрес",
+        "address1_placeholder": "ул.Шарикоподшипниковская д.1",
+        "address2_label": "Квартира, офис и т.п.",
+        "address2_placeholder": "кв.1, подъезд 1, домофон 123",
+        "city_label": "Город",
+        "city_placeholder": "Москва",
+        "country_label": "Страна",
+        "phone_label": "Номер телефона",
+        "phone_placeholder": "+7 123 456 7890",
+        "optional_phone_placeholder": "необязательно"
+      },
+      "customer_account": {
+        "not_user_label": "Не {{ first_name }}?",
+        "email_suggestion": "Вы имели ввиду {{ suggestion }}?",
+        "have_an_account_label": "Уже зарегистрированы?",
+        "sign_in_link_label": "Войти",
+        "sign_out_link_label": "Выйти",
+        "save_my_information_label": "Сохранить мои данные для быстрого оформления заказа"
+      },
+      "stock": {
+        "product_column_header": "Товар",
+        "quantity_column_header": "Количество",
+        "price_column_header": "Стоимость",
+        "status_column_header": "Статус",
+        "removed_from_cart_notice": "Удалено из корзины",
+        "sold_out_label": "Продано",
+        "remove_from_cart_button_label": "Удалить из корзины",
+        "reduced_label": "Уменьшено",
+        "continue_shopping_button_label": "Продолжить",
+        "go_back_to_cart_button_label": "Вернуться в корзину"
+      },
+      "order_summary": {
+        "title": "Информация о заказе",
+        "order_name_label": "Заказ {{ name }}",
+        "discount_label": "Скидка",
+        "show_discount_form_link_label": "Есть скидочный купон? Введите его здесь",
+        "free_shipping_discount_label": "Бесплатная доставка",
+        "apply_discount_button_label": "Применить",
+        "cart_does_not_meet_discount_requirements_notice": "К сожалению скидка не применима к данному набору товаров",
+        "discount_requires_customer_notice": "Пожалуйста заполните адрес доставки для получения этой скидки",
+        "subtotal_label": "Сумма:",
+        "shipping_label": "Доставка",
+        "taxes_label": "Налоги",
+        "total_label": "Итого:",
+        "free_total_label": "Бесплатно",
+        "paid_label": "Оплачено",
+        "payment_due_label": "К оплате:"
+      },
+      "shipping": {
+        "title": "Способ доставки",
+        "waiting_on_rate_notice": "Секундочку...",
+        "no_rates_for_cart_or_destination_notice": "К сожалению, доставка в ваш регион невозможна",
+        "no_rates_for_country_notice": "К сожалению, мы сейчас не доставляем в {{ country }}.",
+        "no_rates_contact_notice": "Напишите нам, чтобы получить подробную информацию",
+        "free_rate_label": "Бесплатно"
+      },
+      "payment": {
+        "title": "Оплата",
+        "amount_left_to_pay_label": "К оплате",
+        "gift_card_code_label": "Подарочная карта",
+        "apply_gift_card_button_label": "Применить",
+        "gift_card_balance_label": "Баланс:"
+      },
+      "alternative_payment_method_banner": {
+        "title": "Оплатить с помощью ",
+        "or": "или"
+      },
+      "paypal": {
+        "express_checkout_title": "Есть аккаунт PayPal?",
+        "express_checkout_description": "Paypal - это быстрый и безопасный способ для оплаты покупок в интернет.",
+        "express_checkout_button_title": "Оформить заказ с помощью PayPal"
+      },
+      "processing": {
+        "redirecting_page_title": "Переадресация...",
+        "redirecting_title": "Переадресация...",
+        "redirecting_notice": "Пожалуйста, подождите",
+        "complete_your_purchase_title": "Завершите свою покупку",
+        "continue_to_payment_gateway_notice": "Перейти к вводу платежной информации."
+      }
+    }
+  }
+}

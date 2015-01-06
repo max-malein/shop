@@ -1,0 +1,17 @@
+<script>
+    var ISRParams = {
+        "id" : "5905c2ee8b67a7b8614ed10f20190112",
+        "apiScript" : "{{ 'api.jquery.js' | shopify_asset_url }}",
+        "moneyFormat": "{{shop.money_format | strip_html}}",
+        "fullMoneyFormat": "{{shop.money_with_currency_format | strip_html}}",
+        "customer" : {}
+    };
+    {% if  customer %}
+        ISRParams.customer.email = "{{ customer.email }}";
+        {% if customer.default_address != nil %}
+            ISRParams.customer.country_code = "{{ customer.default_address.country_code }}";
+        {% else %}
+            ISRParams.customer.country_code = null;
+        {% endif %}
+    {% endif %}
+</script>

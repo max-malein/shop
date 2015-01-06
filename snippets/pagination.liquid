@@ -1,0 +1,19 @@
+{% if paginate.pages > 1 %}
+<div class="row">
+    <div class="pagination clearfix">
+      <div class="parts">
+      {% for part in paginate.parts %}
+      {% if part.is_link %}
+      <a href="{{ part.url }}" class="item link">{{ part.title }}</a>
+      {% else %}
+      {% if part.title == '&hellip;' %}
+      <span class="item dots">{{ part.title }}</span>
+      {% else %}
+      <span class="item current">{{ part.title }}</span>
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+      </div> <!-- /.parts -->
+    </div> <!-- /.pagination -->
+</div> <!-- /.row -->
+{% endif %}

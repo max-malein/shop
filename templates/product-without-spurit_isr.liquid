@@ -1,0 +1,136 @@
+<div id="product" class="{{ product.handle }}" itemscope itemtype="http://schema.org/Product">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+  <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: '1024x1024' }}" />
+  
+  <div class="row">
+    <div class="{% if settings.product_layout_style == "vertical" %}span5{% else %}span7{% endif %}">
+      <div class="image featured">
+        {% if settings.enable_product_image_zoom %}
+        <a href="{{ product.featured_image | product_img_url: 'original' }}" class="cloud-zoom" rel="position: 'inside', showTitle: 'false'" id="placeholder">
+          <img src="{{ product.featured_image | product_img_url: 'original' }}" alt="{{ product.featured_image.alt | escape }}" />
+        </a>
+        {% else %}
+        <a href="{{ product.featured_image | product_img_url: 'original' }}" class="zoom" id="placeholder">
+          <img src="{{ product.featured_image | product_img_url: 'original' }}" alt="{{ product.featured_image.alt | escape }}" />
+        </a>
+        {% endif %}
+        <a href="{{ product.featured_image | product_img_url: 'original' }}" class="zoom" id="zoom-image" {% unless settings.display_product_image_enlarge %}style="display:none;"{% endunless %}>Enlarge Image</a>
+        {% if product.price_min < product.compare_at_price_min %}<span class="banner sale">Sale</span>{% endif %}
+      </div> <!-- /.image -->
+      {% if product.images.size > 1 %}
+      <div class="thumbs clearfix">
+        {% for image in product.images %}
+        {% if settings.enable_product_image_zoom %}
+        <div class="image">
+          <a href="{{ image | product_img_url: 'original' }}" class="cloud-zoom-gallery" rel="useZoom: 'placeholder', smallImage: '{{ image | product_img_url: 'original' }}', tint: '#ffffff'">
+            <img src="{{ image | product_img_url: 'small' }}" alt="{{ image.alt | escape }}" />
+          </a>
+        </div>
+        {% else %}
+        <div class="image">
+          <a href="{{ image | product_img_url: 'original' }}" data-original-image="{{ image | product_img_url: 'original' }}">
+            <img src="{{ image | product_img_url: 'small' }}" alt="{{ image.alt | escape }}" />
+          </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div><!-- /.thumbs -->
+      {% endif %}
+    </div> <!-- /.span8 -->
+    <div class="{% if settings.product_layout_style == "vertical" %}span7{% else %}span5{% endif %}" style="float:right">
+      <h1 class="title"  itemprop="name">{{ product.title }}</h1>
+      <div class="purchase">
+        <h2 class="price" id="price-preview" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+           <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+	        {% if product.available %}
+    	    <link itemprop="availability" href="http://schema.org/InStock" />
+        	{% else %}
+       	     <link itemprop="availability" href="http://schema.org/OutOfStock" />
+         	{% endif %}
+
+          <span itemprop="price">{{ product.price_min | money }}</span>{% if product.price_min < product.compare_at_price_min %} <del>{{ product.compare_at_price_min | money }}</del>{% endif %}
+        </h2>
+      </div> <!-- /.purchase -->
+      
+      <div class="description" itemprop="description">
+        {{ product.description }}
+      </div>
+      
+      <form id="add-item-form" action="/cart/add" method="post" class="variants clearfix">
+        {% assign hide_default_title = false %}
+        {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+          {% assign hide_default_title = true %}
+        {% endif %}  
+        {% if product.available %}
+        <div class="select clearfix"{% if hide_default_title %} style="display:none"{% endif %}>
+          <select id="product-select" name='id'>
+            {% for variant in product.variants %}
+            <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% if settings.display_quantity_dropdown %}
+        <div class="selector-wrapper">
+          <label>Quantity</label>
+          <select name="quantity">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+          </select>
+        </div>
+        {% endif %}
+        {% endif %}
+        
+        <div class="purchase-section{% if product.variants.size > 1 %} multiple{% endif %}">
+          <div class="purchase">
+            {% if product.available %}
+            <input type="submit" class="btn" name="add" id="add-item-to-cart" value="Add to cart" />     
+            {% else %} 
+            <p>Нет в наличие :(</p>
+            {% endif %}        
+          </div> <!-- /.purchase -->
+        </div> <!-- /.clearfix -->
+      </form>
+      
+      {% include 'social-sharing' with product %}
+    </div> <!-- /.span4 -->
+    
+  </div> <!-- /.row -->
+  
+  {% if collection and settings.display_product_collection_nav %}
+  <div class="row">
+    <div class="span12">
+      <div class="collection-nav clearfix">
+        {% if collection.previous_product %}
+        <div class="previous_product">
+          <a href="{{ collection.previous_product }}" class="previous_product">Previous Product</a>
+        </div>
+        {% endif %}
+        {% if collection.next_product %}
+        <div class="next_product">
+          <a href="{{ collection.next_product }}" class="next_product">Next Product</a>
+        </div>
+        {% endif %}
+      </div> <!-- /.collection-nav -->
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+  {% endif %}
+
+  {% if settings.show_related_products %}
+  {% include 'related-products' %}
+  {% endif %}
+  
+</div> <!-- /#product -->
+
+<div style="display:none" id="preloading">
+{% for image in product.images offset: 1 %}
+{{ image | product_img_url: 'original' | img_tag }}
+{% endfor %}
+</div>

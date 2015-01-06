@@ -1,0 +1,46 @@
+
+            <style type='text/css'>
+  
+  #insta-carousel-prev, #insta-carousel-next {
+    width: 45px;
+    height: 50px;
+    position:relative;
+    top:-105px;
+  }
+  #insta-carousel-next {
+    background: url('{{ 'slider-right.png' | asset_url }}') no-repeat transparent;
+    float:right;
+    left:6px;
+  }
+  #insta-carousel-prev{
+    background: url('{{ 'slider-left.png' | asset_url }}') no-repeat transparent;
+    float: left;
+    left:-40px;
+  }
+  
+  #insta-carousel{
+    margin-top: 5px; 
+    padding: 15px 0 15px 40px; 
+    background-image: url({{ 'insta_bg_image.png' | asset_url }});
+    background-repeat: repeat;
+  }
+  
+  #insta-carousel-header{
+    text-align:center; 
+    color:white; 
+    font-size:larger; 
+    margin-left: -15px;
+    margin-right: 30px;
+  }
+  
+  footer{
+    padding-top: 0px;
+  }
+  
+  .insta-clearfix {
+    float: none;
+    clear: both;
+  }
+</style>
+
+<div id='insta-carousel' data-campaignid='5408c0e4b0ae3f22a01fec84'><div  id='insta-carousel-header'>{{ settings.insta_header_text }}</div></div>

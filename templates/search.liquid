@@ -1,0 +1,73 @@
+<div id="search" >
+  {% if search.performed %}
+  {% paginate search.results by settings.pagination_limit %}
+
+  {% if search.terms == "" %}
+  <div class="row">
+    <div class="span12 expanded-message">
+      <h2>Your search query was empty.</h2>
+      <span class="subtext">Please use the search box in the bottom right hand to search</span>
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+  
+  {% else %}
+  {% if search.results == empty %}
+  <div class="row">
+    <div class="span12 expanded-message">
+      <h2>No search results</h2>
+      <span class="subtext">Your search for <strong>"{{search.terms | escape}}"</strong> did not yield any results</span>
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+  
+  {% unless settings.featured_products == blank or collections[settings.featured_products].empty? or collections[settings.featured_products].products_count == 0 %}
+  {% assign collection = collections[settings.featured_products] %}
+  <div class="row products masonry featured-collections">
+  {% for product in collection.products limit: 3 %}
+    {% include 'product-loop' with settings.featured_products %}
+  {% endfor %}
+  </div>
+  {% endunless %}
+  
+  {% else %}
+  <div class="row">
+    <div class="span12">
+      <h1>Search Results</h1>
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+  {% for item in search.results %}
+  <div class="row results">
+    <div class="span3 thumbnail">
+      {% if item.featured_image %}
+        <a href="{{ item.url }}">{{ item.featured_image | product_img_url: 'small' | img_tag }}</a>
+      {% else %}
+        &nbsp;
+      {% endif %}
+    </div>
+    <div class="span9 search-result">
+      <h2>{{ item.title | highlight: search.terms | link_to: item.url }}</h2>
+      {{ item.content | strip_html | truncatewords: 40 | highlight: search.terms }}
+    </div>
+  </div> <!-- /.results -->
+  {% endfor %}
+
+  {% include 'pagination' %}
+
+  {% endif %}
+  {% endif %}
+
+  {% endpaginate %}
+  
+  {% else %}
+
+  <div class="row">
+    <div class="span12 expanded-message">
+      <h2>Search our shop</h2>
+      <form name="search" action="/search" class="clearfix">
+        <input type="text" class="text" name="q"  />
+        <input type="submit" value="Search" class="btn slim submit" />
+      </form>
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+
+  {% endif %}	
+</div> <!-- /#search -->

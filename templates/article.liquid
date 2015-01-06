@@ -1,0 +1,70 @@
+{% paginate article.comments by 100 %}
+<div id="article" class="row">
+  <div class="span9 article">
+    <div class="article-body clearfix">
+      <h1>{{ article.title }} <span class="date">{{ article.published_at | date: "%B %d %Y" }}</span></h1>
+      <div>
+        {{ article.content }}
+      </div>
+    </div> <!-- /.article-body -->
+
+    {% include 'social-sharing' with article %}
+
+    {% if blog.comments_enabled? %}
+    <div id="comments" class="comments">
+      {% if article.comments.size > 0 %}
+
+      <h2>Comments</h2>
+      {% if comment and comment.created_at %}
+      <div id="comment-{{ comment.id }}" class="comment clearfix">
+        <h3>{{ comment.author }} <span class="date">{{ comment.created_at | date: "%B %d %Y at %I:%M%p" }}</span></h3>
+        <div>{{ comment.content }}</div>
+      </div> <!-- /.comment -->
+      {% endif %}
+      {% for comment in article.comments %}
+      <div id="comment-{{ comment.id }}" class="comment clearfix">
+        <h3>{{ comment.author }} <span class="date">{{ comment.created_at | date: "%B %d %Y at %I:%M%p" }}</span></h3>
+        <div>{{ comment.content }}</div>
+      </div> <!-- /.comment -->
+      {% endfor %}
+
+      {% include 'pagination' %}
+
+      {% endif %}
+      <div class="comment_form">
+        {% form article %}
+        <h2>Leave a comment</h2>
+
+        {% if form.posted_successfully? %}
+        {% if blog.moderated? %}
+        <p class="subtext success">Successfully posted your comment. It will have to be approved by the blog owner first before showing up.</p>
+        {% else %}
+        <p class="subtext success">Successfully posted your comment.</p>
+        {% endif %}
+        {% endif %}
+
+        {% if form.errors %}
+        <p class="subtext error">Not all the fields have been filled out correctly</p>
+        {% endif %}
+
+        <label for="comment_author">Your name</label>
+        <input type="text" id="comment_author" name="comment[author]" size="40" class="text" />
+        <label for="comment_email">Your email</label>
+        <input type="text" id="comment_email" name="comment[email]" size="40" class="text" />
+        <label for="comment_body">Comment</label>
+        <textarea id="comment_body" name="comment[body]" cols="40" rows="5" class="text">{{form.body}}</textarea>
+
+        <input type="submit" value="Post comment" class="btn" id="comment-submit" />
+
+        {% if blog.moderated? %}
+        <div class="notice">Comments have to be approved before showing up</div>
+        {% endif %}
+
+        {% endform %}
+      </div> <!-- /#comments -->
+    </div> <!-- /div.comment_form -->
+    {% endif %}
+  </div> <!-- /.span9 -->
+  {% include 'blog_sidebar' %}
+</div> <!-- /#article.row -->
+{% endpaginate %}

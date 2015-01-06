@@ -1,0 +1,69 @@
+{% if settings.display_slideshow %}
+<section id="slideshow" class="row">
+  <div class="span12 slideshow">
+    <div class="flexslider">
+      <ul class="slides unstyled">
+        {% for i in (1..10) %}
+        {% capture display_slideshow %}display_slideshow_{{ i }}{% endcapture %}
+        {% capture slide %}slideshow_{{ i }}.jpg{% endcapture %}
+        {% capture link %}image_{{ i }}_link{% endcapture %}
+        {% capture alt %}image_{{ i }}_alt{% endcapture %}
+        {% if settings[display_slideshow] %}
+        <li class="slide">
+          <img src="{{ slide | asset_url }}" data-url="{{ settings[link] }}" class="slide-img" alt="{{ settings[alt] }}" />
+        </li>
+        {% endif %}             
+        {% endfor %}
+      </ul>
+    </div> <!-- /.flexslider -->
+    <div class="custom-flexslider-controls"></div> <!-- /.custom-flexslider-controls -->
+  </div> <!-- /.span12.slideshow -->
+</section> <!-- /#slideshow.row -->
+{% endif %}
+
+<div id="index" class="clearfix">
+  {% if settings.homepage_products_or_collections != "none" %}
+  <div class="row">
+    <div class="span12">
+      <h1 class="featured">
+        {% if settings.homepage_products_or_collections == "collections" %}
+         <!-- Коллекция <a href="http://pavluque.ru/collections/sovoque">SOVOQUE:</a> -->
+        {% elsif settings.homepage_products_or_collections == "products" %}
+          {% if collections[settings.frontpage_collection].title == 'Frontpage' or collections[settings.frontpage_collection].title == 'All' %}
+            Featured
+          {% else %}
+            {{ collections[settings.frontpage_collection].title }}
+          {% endif %}
+        {% endif %}
+      </h1>
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+  {% endif %}
+  {% if settings.homepage_products_or_collections == "collections" %}
+  <div class="row products masonry">
+    {% for link in linklists[settings.frontpage_linklist].links %}
+    {% if link.type == 'collection_link' and link.object.all_products_count > 0 %}
+    {% assign collection = link.object %}
+    {% include 'collection-loop' %}
+    {% endif %}
+    {% endfor %}
+  </div><!-- /.row -->
+  {% endif %}
+  {% if settings.homepage_products_or_collections == "products" %}
+  <div class="row products masonry"> 
+    {% for product in collections[settings.frontpage_collection].products limit: settings.pagination_limit %}
+    {% include 'product-loop' with settings.frontpage_collection %}
+    {% endfor %}
+  </div> <!-- /.row -->
+  {% endif %}
+  {% if settings.index_page_content != empty %}
+  <div class="row">
+    <div class="span12">
+      <h2>{{ pages[settings.index_page_content].title }}</h2>
+      <div class="page-content">
+        {{ pages[settings.index_page_content].content }}
+      </div>
+    </div> <!-- /.span12 -->
+  </div> <!-- /.row -->
+  {% endif %}
+</div> <!-- /#index -->

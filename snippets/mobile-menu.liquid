@@ -1,0 +1,17 @@
+<nav class="mobile clearfix">
+  <select name="main_navigation" id="main_navigation" class="fl">
+    {% unless template == 'index' and linklists.main-menu.links.first.url == '/' %}
+    <option value="{{ active_url }}" selected="selected">{{ active_title }}</option>
+    {% endunless %}
+    {% for link in linklists.main-menu.links %}
+    <option value="{{ link.url }}">{{ link.title }}</option>
+    {% for childlink in linklists[link.handle].links %}
+    <option value="{{ childlink.url }}">- {{ childlink.title }}</option>
+    {% endfor %}
+    {% endfor %}
+    <option value="/cart">Your cart ({{ cart.item_count }})</option>
+  </select>
+  <ul class="horizontal unstyled clearfix fr">
+    {% include 'customer_links' %}
+  </ul>
+</nav> <!-- /.mobile -->

@@ -1,0 +1,9 @@
+<div class="span3 sidebar">
+  <h3>Recent Articles</h3>
+  {% for article in blogs[blog.handle].articles limit:10 %}
+  <div class="article">
+    <p><a href="{{ article.url }}">{{ article.title }}</a></p>
+    {{ article.content | strip_html | truncatewords:10 }}
+  </div> <!-- /.article -->
+  {% endfor %}
+</div> <!-- /.span3 -->

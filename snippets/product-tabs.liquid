@@ -1,0 +1,147 @@
+<!-- comment 
+<div>
+  <ul class="tabs">
+    <li><a href="#tab-1">Info</a></li>
+    <li><a href="#tab-2">Shipping</a></li>
+    <li><a href="#tab-3">Returns</a></li>
+  </ul>
+  <div id="tab-1">
+  {{ product.description }}
+  </div>
+  <div id="tab-2">
+  {% include 'shipping' %}     
+  </div>
+  <div id="tab-3">
+  {{ pages.returns.content }}
+  </div>        
+</div>
+-->
+
+
+<div id="tabs-section">
+  <ul class="tabs">
+    <li><a href="#tab-1">описание</a></li>
+    <li><a href="#tab-2">размеры</a></li>
+    <li><a href="#tab-3">доставка</a></li>
+  </ul>
+  <div id="tab-1">
+  {% if product.type == "Леггинсы"%}
+  	{{pages.leggins-material.content}}
+  {% endif %}
+  {% if product.type == "Свитшот"%}
+  	{{pages.sweatshirt-material.content}}
+  {% endif %}
+  {% if product.type == "Купальник"%}
+  	{{pages.swimsuit-material.content}}
+  {% endif %}
+  {% if product.type == "Платье"%}
+    {{pages.sweatshirt-material.content}}
+  {% endif %}
+  </div>
+  <div id="tab-2">
+ {{ pages.size-chart.content }}   
+  </div>
+  <div id="tab-3">
+  {{pages.delivery-tab.content}}
+  </div>        
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('ul.tabs').each(function(){
+      var active, content, links = $(this).find('a');
+      active = links.first().addClass('active');
+      content = $(active.attr('href'));
+      links.not(':first').each(function () {
+        $($(this).attr('href')).hide();
+      });
+      $(this).find('a').click(function(e){
+        active.removeClass('active');
+        content.hide();
+        active = $(this);
+        content = $($(this).attr('href'));
+        active.addClass('active');
+        content.show();
+        return false;
+      });
+    });
+  });
+</script>
+
+
+<style>
+#tabs-section {
+	border-bottom: 1px solid #DDDDDD;
+	padding-bottom: 20px;
+}
+
+ul.tabs {
+  border-bottom: 1px solid #DDDDDD;
+  display: block;
+  margin: 0 0 20px;
+  padding: 0;
+}
+ul.tabs li {
+  display: block;
+  float: left;
+  height: 30px;
+  margin-bottom: 0;
+  padding: 0;
+  width: 33.3%;
+}
+ul.tabs li a {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background: none repeat scroll 0 0 #F5F5F5;
+  border-color: #DDDDDD !important;
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
+  display: block;
+  font-size: 13px;
+  height: 29px;
+  line-height: 30px;
+  margin: 0;
+  padding: 0 20px;
+  text-decoration: none;
+  width: auto;
+  color: #303030;
+  border-bottom:none !important;
+  text-align: center;
+}
+ul.tabs li a.active {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-left-width: 1px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  color: #111111;
+  height: 30px;
+  margin: 0 0 0 -1px;
+  padding-top: 4px;
+  position: relative;
+  top: -4px;
+}
+ul.tabs li:first-child a.active {
+  margin-left: 0;
+}
+ul.tabs li:first-child a {
+  border-top-left-radius: 2px;
+  border-width: 1px 1px 0;
+}
+ul.tabs li:last-child a {
+  border-top-right-radius: 2px;
+}
+ul.tabs:before, ul.tabs:after {
+  content: " ";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+}
+ul.tabs:after {
+  clear: both;
+}
+</style>
